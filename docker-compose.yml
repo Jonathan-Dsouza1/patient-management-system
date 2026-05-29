@@ -13,6 +13,20 @@ services:
     networks:
       - internal
 
+  auth-service-db:
+    image: postgres:17
+    container_name: auth-service-db
+    ports:
+      - "5001:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: db
+    volumes:
+      - ./db_volumes/auth-service-db:/var/lib/postgresql/data
+    networks:
+      - internal
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -87,6 +101,22 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       - kafka
+    networks:
+      - internal
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+    depends_on:
+      - auth-service-db
     networks:
       - internal
 

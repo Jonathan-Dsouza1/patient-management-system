@@ -13,7 +13,7 @@ spring:
           filters:
             - StripPrefix=1
 
-          ## Route for /api/docs/patients to patient-service /v3/api-docs
+        ## Route for /api/docs/patients to patient-service /v3/api-docs
         - id: api-docs-patient-route
           uri: http://patient-service:4000
           predicates:
