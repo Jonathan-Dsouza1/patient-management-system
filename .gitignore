@@ -44,3 +44,5 @@ Thumbs.db
 .postman/
 postman/
 db_volumes/
+
+cdk.out/
