@@ -46,3 +46,4 @@ postman/
 db_volumes/
 
 cdk.out/
+events.txt
